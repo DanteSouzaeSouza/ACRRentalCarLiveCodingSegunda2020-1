@@ -190,5 +190,151 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
             }
 
         }
+
+        private void btnConsultar_Click(object sender, EventArgs e)
+        {
+            // criar uma instância do formulário de consulta
+            Form frm = new FrmConsultaCliente(this);
+
+            // definindo quem será a janela pai do novo form
+            frm.MdiParent = this.MdiParent;
+
+            // Exibir o form:
+            frm.Show();
+        }
+
+        private void btnAlterar_Click(object sender, EventArgs e)
+        {
+            // verificando se há código de usuário preenchido no form
+            if (string.IsNullOrEmpty(txtCodigo.Text))
+            {
+                // caso não haja, não fará nada
+                return;
+            }
+
+            // verificando se o formulário está devidamente preenchido
+            if (ValidaDados() == false)
+            {
+                // caso não esteja devidamente preenchido, não faça nada
+                return;
+            }
+
+            // criando a string SQL pra processar a alteração dos dados
+            string sqlQuery =
+                "UPDATE cliente SET nome=@nome, data_nasc=@data_nasc, cpf=@cpf WHERE id_cliente=@id_cliente";
+
+            // criando conexão com o banco
+            SqlConnection conCliente = Conexao.GetConnection();
+
+            try
+            {
+                // abrindo a conexão
+                conCliente.Open();
+
+                SqlCommand command = new SqlCommand(sqlQuery, conCliente);
+
+                // fazendo o binding e adicionando ao comando
+                command.Parameters.Add(new SqlParameter("@nome", txtNome.Text));
+                command.Parameters.Add(
+                    new SqlParameter("@data_nasc", Convert.ToDateTime(txtNome.Text)));
+                command.Parameters.Add(new SqlParameter("@cpf", mskCpf.Text));
+                command.Parameters.Add(
+                    new SqlParameter("@id_cliente", Convert.ToInt32(txtCodigo.Text)));
+
+                // executar o comando
+                command.ExecuteNonQuery();
+
+                // Mostrando janela confirmando cadastro
+                MessageBox.Show("Cliente alterado com sucesso",
+                    "ACR Rental Car", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Information);
+                // limpando o form
+                LimparControles();
+
+
+
+            }
+            catch (Exception ex)  // se houve alguma exceção dentro do bloco try
+            {
+                MessageBox.Show("Problema ao alterar cliente " + ex, "ACR Rental Car", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            finally  // independente se houve exceção ou não o a parte "FINALLY"
+                     // do bloco try é sempre executado
+            {
+                //se conexão não for nula, fecha conexão
+                if (conCliente != null)
+                {
+                    conCliente.Close();
+                }
+            }
+            
+        }
+
+        private void btnExcluir_Click(object sender, EventArgs e)
+        {
+            // verificando se há código de usuário preenchido no form
+            if (string.IsNullOrEmpty(txtCodigo.Text))
+            {
+                // caso não haja, não fará nada
+                return;
+            }
+
+            if (MessageBox.Show("Deseja realmente excluir permanentemente o registro?",
+                "ACR Rental", MessageBoxButtons.OKCancel, 
+                MessageBoxIcon.Question) == DialogResult.OK)
+            {
+                // criando a string SQL pra processar a alteração dos dados
+                string sqlQuery =
+                    "DELETE FROM cliente WHERE id_cliente=@id_cliente";
+
+                // criando conexão com o banco
+                SqlConnection conCliente = Conexao.GetConnection();
+
+                try
+                {
+                    // abrindo a conexão
+                    conCliente.Open();
+
+                    SqlCommand command = new SqlCommand(sqlQuery, conCliente);
+
+                    // fazendo o binding e adicionando ao comando
+                    command.Parameters.Add(
+                        new SqlParameter("@id_cliente", Convert.ToInt32(txtCodigo.Text)));
+
+                    // executar o comando
+                    command.ExecuteNonQuery();
+
+                    // Mostrando janela confirmando cadastro
+                    MessageBox.Show("Cliente excluído com sucesso",
+                        "ACR Rental Car",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    // limpando o form
+                    LimparControles();
+
+
+
+                }
+                catch (Exception ex)  // se houve alguma exceção dentro do bloco try
+                {
+                    MessageBox.Show("Problema ao excluir o cliente " + ex, "ACR Rental Car", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                finally  // independente se houve exceção ou não o a parte "FINALLY"
+                         // do bloco try é sempre executado
+                {
+                    //se conexão não for nula, fecha conexão
+                    if (conCliente != null)
+                    {
+                        conCliente.Close();
+                    }
+                }
+            }
+        }
+
+        private void btnFechar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
