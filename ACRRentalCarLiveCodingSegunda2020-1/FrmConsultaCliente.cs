@@ -14,19 +14,16 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
 {
     public partial class FrmConsultaCliente : Form
     {
+
+        FrmCadastroCliente cliente;
         // foi adicionado o parâmetro para receber o frmCadastroCliente
         // ao método construtor abaixo:
         public FrmConsultaCliente(FrmCadastroCliente frmCadastroCliente)
         {
+            this.cliente = frmCadastroCliente;
             InitializeComponent();
-            cliente = frmCadastroCliente;
-
+            
         }
-
-        FrmCadastroCliente cliente = null;
-
-
-        // TODO: verificar onde instanciar o frmCadastroCliente
 
         private void FrmConsultaCliente_Load(object sender, EventArgs e)
         {
@@ -85,12 +82,11 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
             string codigoCliente = dgvCliente.CurrentRow.Cells[0].Value.ToString();
 
 
-
             // criando a string de consulta
             string sqlQuery = 
                 "SELECT id_cliente, nome, cpf, data_nasc FROM cliente WHERE id_cliente=@id_cliente";
 
-            SqlConnection connection = Conexao.GetConnection();
+            SqlConnection connectionC = Conexao.GetConnection();
 
             // criar um SQLDataReader
             SqlDataReader sqlDataReader = null;
@@ -98,9 +94,9 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
 
             try
             {
-                connection.Open();
+                connectionC.Open();
 
-                SqlCommand sqlCommand = new SqlCommand(sqlQuery, connection);
+                SqlCommand sqlCommand = new SqlCommand(sqlQuery, connectionC);
 
                 sqlCommand.Parameters.Add("@id_cliente", Convert.ToInt32(codigoCliente));
 
@@ -114,6 +110,7 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
                     cliente.mskDtNasc.Text = sqlDataReader["DATA_NASC"].ToString();
                     cliente.mskCpf.Text = sqlDataReader["CPF"].ToString();
 
+                    cliente.Focus();
                 }
 
 
@@ -132,9 +129,9 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
 
 
                 //se conexão não for nula, fecha conexão
-                if (connection != null)
+                if (connectionC != null)
                 {
-                    connection.Close();
+                    connectionC.Close();
                 }
             }
         }
