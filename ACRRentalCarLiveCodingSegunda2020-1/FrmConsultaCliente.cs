@@ -1,42 +1,35 @@
 ﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ACRRentalCarLiveCodingSegunda2020_1
 {
     public partial class FrmConsultaCliente : Form
     {
+        private readonly FrmCadastroCliente cliente;
 
-        FrmCadastroCliente cliente;
         // foi adicionado o parâmetro para receber o frmCadastroCliente
         // ao método construtor abaixo:
         public FrmConsultaCliente(FrmCadastroCliente frmCadastroCliente)
         {
-            this.cliente = frmCadastroCliente;
+            cliente = frmCadastroCliente;
             InitializeComponent();
-            
         }
 
         private void FrmConsultaCliente_Load(object sender, EventArgs e)
         {
             // criando a string de consulta
-            string sqlQuery = "SELECT id_cliente, nome, cpf, data_nasc FROM cliente ORDER BY nome";
+            var sqlQuery = "SELECT id_cliente, nome, cpf, data_nasc FROM cliente ORDER BY nome";
 
-            SqlConnection connection = Conexao.GetConnection();
+            var connection = Conexao.GetConnection();
 
             // como retornam muitos resultados e precisamos jogá-los em um DataGridView,
             // usamos uma Adapter
-            SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlQuery, connection);
+            var dataAdapter = new SqlDataAdapter(sqlQuery, connection);
 
-            DataTable dataTable = new DataTable();
+            var dataTable = new DataTable();
 
             try
             {
@@ -56,37 +49,31 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
                 dgvCliente.Columns[1].HeaderCell.Value = "Nome";
                 dgvCliente.Columns[2].HeaderCell.Value = "CPF";
                 dgvCliente.Columns[3].HeaderCell.Value = "Data Nascimento";
-
-
             }
-            catch (Exception ex)  // se houve alguma exceção dentro do bloco try
+            catch (Exception ex) // se houve alguma exceção dentro do bloco try
             {
-                MessageBox.Show("Problema ao carregar dados! " + ex, "ACR Rental Car", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Problema ao carregar dados! " + ex, 
+                    "ACR Rental Car", MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
             }
-            finally  // independente se houve exceção ou não o a parte "FINALLY"
+            finally // independente se houve exceção ou não o a parte "FINALLY"
                 // do bloco try é sempre executado
             {
                 //se conexão não for nula, fecha conexão
-                if (connection != null)
-                {
-                    connection.Close();
-                }
+                if (connection != null) connection.Close();
             }
-
         }
 
         private void btnSelecionar_Click(object sender, EventArgs e)
         {
-
-
-            string codigoCliente = dgvCliente.CurrentRow.Cells[0].Value.ToString();
+            var codigoCliente = dgvCliente.CurrentRow.Cells[0].Value.ToString();
 
 
             // criando a string de consulta
-            string sqlQuery = 
+            var sqlQuery =
                 "SELECT id_cliente, nome, cpf, data_nasc FROM cliente WHERE id_cliente=@id_cliente";
 
-            SqlConnection connectionC = Conexao.GetConnection();
+            var connectionC = Conexao.GetConnection();
 
             // criar um SQLDataReader
             SqlDataReader sqlDataReader = null;
@@ -96,7 +83,7 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
             {
                 connectionC.Open();
 
-                SqlCommand sqlCommand = new SqlCommand(sqlQuery, connectionC);
+                var sqlCommand = new SqlCommand(sqlQuery, connectionC);
 
                 sqlCommand.Parameters.Add("@id_cliente", Convert.ToInt32(codigoCliente));
 
@@ -104,7 +91,6 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
 
                 if (sqlDataReader.Read())
                 {
-                    
                     cliente.txtCodigo.Text = sqlDataReader["ID_CLIENTE"].ToString();
                     cliente.txtNome.Text = sqlDataReader["NOME"].ToString();
                     cliente.mskDtNasc.Text = sqlDataReader["DATA_NASC"].ToString();
@@ -112,27 +98,21 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
 
                     cliente.Focus();
                 }
-
-
             }
-            catch (Exception ex)  // se houve alguma exceção dentro do bloco try
+            catch (Exception ex) // se houve alguma exceção dentro do bloco try
             {
-                MessageBox.Show("Problema ao carregar dados! " + ex, "ACR Rental Car", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Problema ao carregar dados! " + ex,
+                    "ACR Rental Car", MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
             }
-            finally  // independente se houve exceção ou não o a parte "FINALLY"
+            finally // independente se houve exceção ou não o a parte "FINALLY"
                 // do bloco try é sempre executado
             {
-                if (sqlDataReader != null)
-                {
-                    sqlDataReader.Close();
-                }
+                if (sqlDataReader != null) sqlDataReader.Close();
 
 
                 //se conexão não for nula, fecha conexão
-                if (connectionC != null)
-                {
-                    connectionC.Close();
-                }
+                if (connectionC != null) connectionC.Close();
             }
         }
     }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.SqlClient;
 
 namespace ACRRentalCarLiveCodingSegunda2020_1
 {
@@ -14,11 +9,11 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
         public static SqlConnection GetConnection()
         {
             // objeto que recebe a string de conexão
-            SqlConnection connection = 
-                new SqlConnection(@"Data Source=.\SQLEXPRESS;Initial Catalog=DB_RENTALCAR_DSS;Integrated Security=True;Pooling=False");
+            var connection =
+                new SqlConnection(
+                    @"Data Source=.\SQLEXPRESS;Initial Catalog=DB_RENTALCAR_DSS;Integrated Security=True;Pooling=False");
             // retorna a conexão com o BD
             return connection;
         }
-
     }
 }
