@@ -42,6 +42,7 @@
             this.btnCancelar.TabIndex = 5;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // btnSelecionar
             // 
@@ -51,6 +52,7 @@
             this.btnSelecionar.TabIndex = 4;
             this.btnSelecionar.Text = "Selecionar";
             this.btnSelecionar.UseVisualStyleBackColor = true;
+            this.btnSelecionar.Click += new System.EventHandler(this.btnSelecionar_Click);
             // 
             // dgvVeiculo
             // 
@@ -75,6 +77,7 @@
             this.Controls.Add(this.dgvVeiculo);
             this.Name = "FrmConsultaVeiculo";
             this.Text = "Consulta de Veículos";
+            this.Load += new System.EventHandler(this.FrmConsultaVeiculo_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvVeiculo)).EndInit();
             this.ResumeLayout(false);
 

@@ -53,6 +53,7 @@
             this.btnFechar.TabIndex = 14;
             this.btnFechar.Text = "Fechar";
             this.btnFechar.UseVisualStyleBackColor = true;
+            this.btnFechar.Click += new System.EventHandler(this.btnFechar_Click);
             // 
             // btnConsultar
             // 
@@ -62,6 +63,7 @@
             this.btnConsultar.TabIndex = 11;
             this.btnConsultar.Text = "Consultar";
             this.btnConsultar.UseVisualStyleBackColor = true;
+            this.btnConsultar.Click += new System.EventHandler(this.btnConsultar_Click);
             // 
             // btnExcluir
             // 
@@ -71,6 +73,7 @@
             this.btnExcluir.TabIndex = 13;
             this.btnExcluir.Text = "Excluir";
             this.btnExcluir.UseVisualStyleBackColor = true;
+            this.btnExcluir.Click += new System.EventHandler(this.btnExcluir_Click);
             // 
             // btnAlterar
             // 
@@ -80,6 +83,7 @@
             this.btnAlterar.TabIndex = 12;
             this.btnAlterar.Text = "Alterar";
             this.btnAlterar.UseVisualStyleBackColor = true;
+            this.btnAlterar.Click += new System.EventHandler(this.btnAlterar_Click);
             // 
             // btnIncluir
             // 
@@ -212,9 +216,9 @@
         private System.Windows.Forms.Label lblFabricante;
         public System.Windows.Forms.TextBox txtPlaca;
         private System.Windows.Forms.Label lblPlaca;
-        private System.Windows.Forms.TextBox txtModelo;
-        private System.Windows.Forms.TextBox txtAno;
-        private System.Windows.Forms.TextBox txtCor;
+        internal System.Windows.Forms.TextBox txtModelo;
+        internal System.Windows.Forms.TextBox txtAno;
+        internal System.Windows.Forms.TextBox txtCor;
         private System.Windows.Forms.Label lblCor;
     }
 }

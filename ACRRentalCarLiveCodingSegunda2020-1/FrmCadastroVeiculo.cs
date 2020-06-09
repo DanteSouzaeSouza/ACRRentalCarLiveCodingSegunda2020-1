@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Data;
-
 using System.Data.SqlClient;
-using System.Windows.Forms; // Adicionando dependência para o SqlClient
+using System.Windows.Forms;
+
+// Adicionando dependência para o SqlClient
 
 namespace ACRRentalCarLiveCodingSegunda2020_1
 {
@@ -59,65 +59,61 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
                 //retorna falso
                 return false;
             }
-            else
+
+            //declaração da variável para guardar as instruções SQL
+            string sqlQuery;
+
+            //cria conexão chamando o método getConnection da classe Conexao
+            var conPlaca = Conexao.GetConnection();
+
+            //cria a instrução sql, parametrizada
+            sqlQuery = "SELECT placa FROM veiculo WHERE placa = @placa";
+
+            //Tratamento de exceções
+            try
             {
-                //declaração da variável para guardar as instruções SQL
-                string sqlQuery;
+                //abre a conexão com o banco de dados
+                conPlaca.Open();
 
-                //cria conexão chamando o método getConnection da classe Conexao
-                var conPlaca = Conexao.GetConnection();
+                //cria um objeto do tipo SqlCommand com a instrução SQL e a conexão
+                var cmd = new SqlCommand(sqlQuery, conPlaca);
 
-                //cria a instrução sql, parametrizada
-                sqlQuery = "SELECT placa FROM veiculo WHERE placa = @placa";
+                //define, adiciona os parametros
+                cmd.Parameters.Add(new SqlParameter("@placa", txtPlaca.Text));
 
-                //Tratamento de exceções
-                try
+                using (cmd)
                 {
-                    //abre a conexão com o banco de dados
-                    conPlaca.Open();
-
-                    //cria um objeto do tipo SqlCommand com a instrução SQL e a conexão
-                    var cmd = new SqlCommand(sqlQuery, conPlaca);
-
-                    //define, adiciona os parametros
-                    cmd.Parameters.Add(new SqlParameter("@placa", txtPlaca.Text));
-
-                    using (cmd)
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        // Checando se há dados retornados
+                        if (reader.HasRows)
                         {
-                            // Checando se há dados retornados
-                            if (reader.HasRows)
-                            {
+                            MessageBox.Show("Veículo já cadastrado",
+                                "ACR Rental Car", MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                            //limpa o controle
+                            txtPlaca.Clear();
 
-                                MessageBox.Show("Veículo já cadastrado",
-                                    "ACR Rental Car", MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information);
-                                //limpa o controle
-                                txtPlaca.Clear();
+                            //coloca o cursor no controle
+                            txtPlaca.Focus();
 
-                                //coloca o cursor no controle
-                                txtPlaca.Focus();
-
-                                //retorna falso
-                                return false;
-                            }
-
+                            //retorna falso
+                            return false;
                         }
                     }
                 }
-                catch (Exception ex) // se houve alguma exceção dentro do bloco try
-                {
-                    MessageBox.Show("Problema ao carregar dados! " + ex,
-                        "ACR Rental Car", MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-                }
-                finally // independente se houve exceção ou não o a parte "FINALLY"
-                    // do bloco try é sempre executado
-                {
-                    //se conexão não for nula, fecha conexão
-                    if (conPlaca != null) conPlaca.Close();
-                }
+            }
+            catch (Exception ex) // se houve alguma exceção dentro do bloco try
+            {
+                MessageBox.Show("Problema ao carregar dados! " + ex,
+                    "ACR Rental Car", MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
+            finally // independente se houve exceção ou não o a parte "FINALLY"
+                // do bloco try é sempre executado
+            {
+                //se conexão não for nula, fecha conexão
+                if (conPlaca != null) conPlaca.Close();
             }
 
 
@@ -139,6 +135,7 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
                 //retorna falso
                 return false;
             }
+
             // verifica se o txtFabricante está preenchido,
             // Se for nulo ou vazio retorna falso
             if (string.IsNullOrEmpty(txtModelo.Text))
@@ -213,7 +210,8 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
             var conVeiculo = Conexao.GetConnection();
 
             //cria a instrução sql, parametrizada
-            sqlQuery = "INSERT INTO veiculo(placa, fabricante, modelo, ano, cor) VALUES(@placa, @fabricante, @modelo, @ano, @cor)";
+            sqlQuery =
+                "INSERT INTO veiculo(placa, fabricante, modelo, ano, cor) VALUES(@placa, @fabricante, @modelo, @ano, @cor)";
 
             //Tratamento de exceções
             try
@@ -257,6 +255,136 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
         private void FrmCadastroVeiculo_Load(object sender, EventArgs e)
         {
             Habilitar();
+        }
+
+        private void btnConsultar_Click(object sender, EventArgs e)
+        {
+            // criar uma instância do formulário de consulta
+            Form frm = new FrmConsultaVeiculo(this);
+
+            // definindo quem será a janela pai do novo form
+            frm.MdiParent = MdiParent;
+
+            // Exibir o form:
+            frm.Show();
+        }
+
+        private void btnAlterar_Click(object sender, EventArgs e)
+        {
+            // verificando se há código de usuário preenchido no form
+            if (string.IsNullOrEmpty(txtPlaca.Text))
+                // caso não haja, não fará nada
+                return;
+
+            // verificando se o formulário está devidamente preenchido
+            if (ValidaDados() == false)
+                // caso não esteja devidamente preenchido, não faça nada
+                return;
+
+            // criando a string SQL pra processar a alteração dos dados
+            var sqlQuery =
+                "UPDATE veiculo SET placa=@placa, fabricante=@fabricante, modelo=@modelo, ano=@ano, cor=@cor WHERE placa=@placa";
+
+            // criando conexão com o banco
+            var conVeiculo = Conexao.GetConnection();
+
+            try
+            {
+                // abrindo a conexão
+                conVeiculo.Open();
+
+                var command = new SqlCommand(sqlQuery, conVeiculo);
+
+                // fazendo o binding e adicionando ao comando
+                command.Parameters.Add(new SqlParameter("@placa", txtPlaca.Text));
+                command.Parameters.Add(new SqlParameter("@fabricante", txtFabricante.Text));
+                command.Parameters.Add(new SqlParameter("@modelo", txtModelo.Text));
+                command.Parameters.Add(new SqlParameter("@ano", txtAno.Text));
+                command.Parameters.Add(new SqlParameter("@cor", txtCor.Text));
+
+                // executar o comando
+                command.ExecuteNonQuery();
+
+                // Mostrando janela confirmando cadastro
+                MessageBox.Show("Veículo alterado com sucesso!",
+                    "ACR Rental Car",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                // limpando o form
+                LimparControles();
+            }
+            catch (Exception ex) // se houve alguma exceção dentro do bloco try
+            {
+                MessageBox.Show("Problema ao alterar veículo: " + ex,
+                    "ACR Rental Car", MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
+            finally // independente se houve exceção ou não o a parte "FINALLY"
+                    // do bloco try é sempre executado
+            {
+                //se conexão não for nula, fecha conexão
+                if (conVeiculo != null) conVeiculo.Close();
+            }
+        }
+
+        private void btnExcluir_Click(object sender, EventArgs e)
+        {
+            // verificando se há código de usuário preenchido no form
+            if (string.IsNullOrEmpty(txtPlaca.Text))
+                // caso não haja, não fará nada
+                return;
+
+            if (MessageBox.Show("Deseja realmente excluir permanentemente o registro?",
+                "ACR Rental", MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question) == DialogResult.OK)
+            {
+                // criando a string SQL pra processar a alteração dos dados
+                var sqlQuery =
+                    "DELETE FROM veiculo WHERE placa=@placa";
+
+                // criando conexão com o banco
+                var conVeiculo = Conexao.GetConnection();
+
+                try
+                {
+                    // abrindo a conexão
+                    conVeiculo.Open();
+
+                    var command = new SqlCommand(sqlQuery, conVeiculo);
+
+                    // fazendo o binding e adicionando ao comando
+                    command.Parameters.Add(
+                        new SqlParameter("@placa",txtPlaca.Text));
+
+                    // executar o comando
+                    command.ExecuteNonQuery();
+
+                    // Mostrando janela confirmando cadastro
+                    MessageBox.Show("Veículo excluído com sucesso!",
+                        "ACR Rental Car",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    // limpando o form
+                    LimparControles();
+                }
+                catch (Exception ex) // se houve alguma exceção dentro do bloco try
+                {
+                    MessageBox.Show("Problema ao excluir o veículo: " + ex,
+                        "ACR Rental Car", MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                }
+                finally // independente se houve exceção ou não o a parte "FINALLY"
+                        // do bloco try é sempre executado
+                {
+                    //se conexão não for nula, fecha conexão
+                    if (conVeiculo != null) conVeiculo.Close();
+                }
+            }
+        }
+
+        private void btnFechar_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
