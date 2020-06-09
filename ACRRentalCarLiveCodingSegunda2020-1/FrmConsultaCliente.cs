@@ -85,7 +85,8 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
 
                 var sqlCommand = new SqlCommand(sqlQuery, connectionC);
 
-                sqlCommand.Parameters.Add("@id_cliente", Convert.ToInt32(codigoCliente));
+                sqlCommand.Parameters.Add("@id_cliente",
+                    Convert.ToInt32(codigoCliente));
 
                 sqlDataReader = sqlCommand.ExecuteReader();
 
@@ -101,7 +102,7 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
             }
             catch (Exception ex) // se houve alguma exceção dentro do bloco try
             {
-                MessageBox.Show("Problema ao carregar dados! " + ex,
+                MessageBox.Show("Problema ao carregar dados!" + ex,
                     "ACR Rental Car", MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
             }
@@ -114,6 +115,11 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
                 //se conexão não for nula, fecha conexão
                 if (connectionC != null) connectionC.Close();
             }
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

@@ -77,11 +77,23 @@
     <Compile Include="FrmCadastroCliente.Designer.cs">
       <DependentUpon>FrmCadastroCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmCadastroVeiculo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmCadastroVeiculo.Designer.cs">
+      <DependentUpon>FrmCadastroVeiculo.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmConsultaCliente.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FrmConsultaCliente.Designer.cs">
       <DependentUpon>FrmConsultaCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmConsultaVeiculo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmConsultaVeiculo.Designer.cs">
+      <DependentUpon>FrmConsultaVeiculo.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,8 +103,14 @@
     <EmbeddedResource Include="FrmCadastroCliente.resx">
       <DependentUpon>FrmCadastroCliente.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmCadastroVeiculo.resx">
+      <DependentUpon>FrmCadastroVeiculo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmConsultaCliente.resx">
       <DependentUpon>FrmConsultaCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmConsultaVeiculo.resx">
+      <DependentUpon>FrmConsultaVeiculo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

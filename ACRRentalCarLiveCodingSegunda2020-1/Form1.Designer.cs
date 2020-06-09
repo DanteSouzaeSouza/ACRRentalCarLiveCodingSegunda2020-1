@@ -70,6 +70,7 @@
             this.veículoToolStripMenuItem.Name = "veículoToolStripMenuItem";
             this.veículoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.veículoToolStripMenuItem.Text = "Veículo";
+            this.veículoToolStripMenuItem.Click += new System.EventHandler(this.veículoToolStripMenuItem_Click);
             // 
             // movimentaçãoToolStripMenuItem
             // 
@@ -83,13 +84,13 @@
             // locaçãoToolStripMenuItem
             // 
             this.locaçãoToolStripMenuItem.Name = "locaçãoToolStripMenuItem";
-            this.locaçãoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.locaçãoToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.locaçãoToolStripMenuItem.Text = "Locação";
             // 
             // devoluçãoToolStripMenuItem
             // 
             this.devoluçãoToolStripMenuItem.Name = "devoluçãoToolStripMenuItem";
-            this.devoluçãoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.devoluçãoToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.devoluçãoToolStripMenuItem.Text = "Devolução";
             // 
             // FrmPrincipal

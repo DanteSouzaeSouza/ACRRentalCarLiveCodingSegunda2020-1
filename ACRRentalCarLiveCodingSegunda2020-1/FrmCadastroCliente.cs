@@ -24,7 +24,7 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
             mskDtNasc.Enabled = true;
         }
 
-        //sub-rotina para desabiitar os controles
+        //sub-rotina para desabilitar os controles
         private void Desabilitar()
         {
             //txtCodigo sempre será desabilitado
@@ -79,7 +79,8 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
             if (!DateTime.TryParse(mskDtNasc.Text, out auxData))
             {
                 //mensagem ao usuário
-                MessageBox.Show("Campo de preenchimento obrigatório!", "ACR Rental Car", MessageBoxButtons.OK,
+                MessageBox.Show("Campo de preenchimento obrigatório!",
+                    "ACR Rental Car", MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
 
                 //limpa o mskDtNasc
@@ -96,7 +97,8 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
             if (string.IsNullOrEmpty(txtNome.Text))
             {
                 //mensagem ao usuário
-                MessageBox.Show("Campo de preenchimento obrigatório!", "ACR Rental Car", MessageBoxButtons.OK,
+                MessageBox.Show("Campo de preenchimento obrigatório!", 
+                    "ACR Rental Car", MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
 
                 //limpa o txtNome
@@ -125,7 +127,9 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
                 //se txtCodigo não estiver vazio, significa que já foi consultado um cliente.
                 // a instrução a seguir captura se foi clicado o botão Yes (SIM) como resposta da pergunta.
                 if (MessageBox.Show("Você está editando um registro existente. Deseja incluir um registro novo?",
-                    "ACR Rental Car", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    "ACR Rental Car", 
+                    MessageBoxButtons.YesNo, 
+                    MessageBoxIcon.Question) == DialogResult.Yes)
                     LimparControles();
                 return; //encerra a sub-rotina
             }
