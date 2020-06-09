@@ -245,7 +245,7 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
                 // limpando o form
-                LimparControles();
+                this.Close();
             }
             catch (Exception ex) // se houve alguma exceção dentro do bloco try
             {
@@ -300,7 +300,7 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
                     // limpando o form
-                    LimparControles();
+                    this.Close();
                 }
                 catch (Exception ex) // se houve alguma exceção dentro do bloco try
                 {

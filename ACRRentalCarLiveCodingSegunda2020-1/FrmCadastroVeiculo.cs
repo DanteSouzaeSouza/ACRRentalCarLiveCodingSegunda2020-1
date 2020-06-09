@@ -195,6 +195,91 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
             return true;
         }
 
+        private bool ValidaDadosAlt()
+        {
+            // verifica se o txtFabricante está preenchido,
+            // Se for nulo ou vazio retorna falso
+            if (string.IsNullOrEmpty(txtFabricante.Text))
+            {
+                //mensagem ao usuário
+                MessageBox.Show("Campo Fabricante é de preenchimento obrigatório!",
+                    "ACR Rental Car", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                //limpa o txtNome
+                txtFabricante.Clear();
+
+                //coloca o cursor no txtNome
+                txtFabricante.Focus();
+
+                //retorna falso
+                return false;
+            }
+
+            // verifica se o txtFabricante está preenchido,
+            // Se for nulo ou vazio retorna falso
+            if (string.IsNullOrEmpty(txtModelo.Text))
+            {
+                //mensagem ao usuário
+                MessageBox.Show("Campo Modelo é de preenchimento obrigatório!",
+                    "ACR Rental Car", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                //limpa o txtNome
+                txtModelo.Clear();
+
+                //coloca o cursor no txtNome
+                txtModelo.Focus();
+
+                //retorna falso
+                return false;
+            }
+
+            int result;
+            if (int.TryParse(txtAno.Text, out result) == false)
+            {
+                //mensagem ao usuário
+                MessageBox.Show("Valor inválido para o ano!",
+                    "ACR Rental Car", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                //limpa o txtNome
+                txtAno.Clear();
+
+                //coloca o cursor no txtNome
+                txtAno.Focus();
+
+                //retorna falso
+                return false;
+            }
+
+            // verifica se o txtFabricante está preenchido,
+            // Se for nulo ou vazio retorna falso
+            if (string.IsNullOrEmpty(txtCor.Text))
+            {
+                //mensagem ao usuário
+                MessageBox.Show("Campo cor é de preenchimento obrigatório!",
+                    "ACR Rental Car", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                //limpa o txtNome
+                txtCor.Clear();
+
+                //coloca o cursor no txtNome
+                txtCor.Focus();
+
+                //retorna falso
+                return false;
+            }
+
+            return true;
+        }
+
+
+
+
+
+
         private void btnIncluir_Click(object sender, EventArgs e)
         {
             // antes de incluir é preciso validar os dados de preenchimento obrigatório
@@ -277,7 +362,7 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
                 return;
 
             // verificando se o formulário está devidamente preenchido
-            if (ValidaDados() == false)
+            if (ValidaDadosAlt() == false)
                 // caso não esteja devidamente preenchido, não faça nada
                 return;
 
@@ -311,7 +396,7 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
                 // limpando o form
-                LimparControles();
+                this.Close();
             }
             catch (Exception ex) // se houve alguma exceção dentro do bloco try
             {
@@ -365,7 +450,7 @@ namespace ACRRentalCarLiveCodingSegunda2020_1
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
                     // limpando o form
-                    LimparControles();
+                    this.Close();
                 }
                 catch (Exception ex) // se houve alguma exceção dentro do bloco try
                 {
